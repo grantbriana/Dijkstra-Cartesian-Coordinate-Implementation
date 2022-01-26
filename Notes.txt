@@ -1,0 +1,288 @@
+   public void dijkstraAlgorithm(int source, int dest) {
+        HashMap<Vertex, Double> distance = new HashMap<>();
+        HashMap<Vertex, Vertex> parents = new HashMap<>();
+        //List<Edge> path = new ArrayList<>();
+        PriorityQueue<Integer> Q = new PriorityQueue<>();
+        Set<Vertex> processed = new HashSet<>();
+
+        //Initialize all vertex nodes to infinity
+        for (int i = 0; i < output.size(); i++) {
+            distance.put(output.get(i), Double.MAX_VALUE);
+        }
+
+        //Initialize source vertex to 0.0
+        distance.put(output.get(source), 0.0);
+
+        Q.add(source);
+        while (!Q.isEmpty()) {   //!processed.contains(output.get(dest))
+            //remove lowest rank item from queue
+            int u = Q.peek();
+            if(u == dest){
+                break;
+            }
+            Q.remove();
+
+            //Need to know
+            for(int i = 0 ; i < output.size(); i++) {
+                if(output.get(i).getNumber() == u){
+                    System.out.println(output.get(i).getCoordinate());
+                }
+            }
+            //**add current node to processed
+            processed.add(output.get(u));
+
+            ArrayList<Vertex> list = new ArrayList<>(getNeighbors(u));
+            System.out.println(list);
+
+            //for neighbors of current:
+            for (Vertex nextNeighbor : list) {
+                int nextNeigborIndex = nextNeighbor.getNumber();  //1
+
+                ///for(int i = 0; i < list.size(); i++)
+                // if (edges.get(i).getStart().equals(output.get(u)) && edges.get(i).getDestination().equals(output.get(nextNeigborIndex))) {
+                //distance.get(e) is distance between neighbor and u
+                Edge e = new Edge(output.get(u), output.get(nextNeigborIndex));
+
+                //**cost = g(current) + movementcost(current, neighbor)
+                double cost = distance.get(output.get(u)) + e.getDistance();
+                //System.out.println(e);
+
+                //**if neighbor in OPEN and cost less than g(neighbor):
+                if(processed.contains(output.get(nextNeigborIndex)) && cost < distance.get(output.get(nextNeigborIndex))){
+                    //**remove neighbor from OPEN, because new path is better
+                    Q.remove(nextNeigborIndex);
+                }
+
+                //**if neighbor not in OPEN and neighbor not in CLOSED:
+                if(!Q.contains(nextNeigborIndex) && !processed.contains(output.get(nextNeigborIndex))){
+                    //**set g(neighbor) to cost
+                    distance.put(output.get(nextNeigborIndex),cost);
+                    //**add neighbor to OPEN
+                    processed.add(output.get(nextNeigborIndex));
+                    //**set priority queue rank to g(neighbor) + h(neighbor)
+
+                }
+
+
+                 //Fix priority queue using heuristics: Compare current vertex to neighbor & neighbor to destination
+                    //OR (1)Fix comparator OR (2)Get rid of priority queue
+
+                    //distance from this vertex node to destinaation vertex
+                        public double calculateHeuristic(Vertex finalNode) {
+
+                            this.h = Math.abs(finalNode.getX() - getX()) + Math.abs(finalNode.getY() - getY());
+                            return this.h;
+                        }
+
+
+
+       //***For testing purposes only***
+        Vertex Node = getNode("(50,10)");
+        Vertex Node2 = getNode("(50,11)");
+        //System.out.println(Node.getNumber() + " " + Node2.getNumber());
+        //********************************
+
+         public LinkedList<Vertex> getPath(HashMap<Vertex,Vertex> predecessors, Vertex target) {
+                LinkedList<Vertex> path = new LinkedList<>();
+                //LinkedList<Edge> path = new LinkedList<>();
+                Vertex temp = target;
+                // check if a path exists
+                if (predecessors.get(temp) == null) {
+                    return null;
+                }
+                path.add(temp);  //path = {(0,10)
+                while (predecessors.get(temp) != null) {
+                    temp = predecessors.get(temp);   //add targets parent =
+                    path.add(temp);   //path = {(0,10), (
+                }
+                // Put it into the correct order
+                Collections.reverse(path);
+                return path;
+            }
+
+
+//HEURISTIC
+ /*if (dX > dY) {
+            distance = (1 * (dX-dY) + Math.sqrt(2) * dY);
+        }
+        if(dX == dY){
+            distance = 1 * (dX + dY) + (Math.sqrt(2)-2) * min(dX,dY) ;
+                                          }
+                                          else {
+                                              distance = 1 * (dY-dX) + Math.sqrt(2) * dX;
+                                          }*/
+
+                                          distance = 1 * Math.max(dX, dY) + (Math.sqrt(2)-1) * min(dX,dY)  ;
+                                          //distance = 1 * (dX + dY) + (Math.sqrt(2)-2) * min(dX,dY)  ;
+
+                                          //distance += cross * .001;
+
+
+                                          //distance = Point2D.distance(startX, startY, destinationX, destinationY);
+                                          //this.distance = distance;
+
+                                   -------------------------------------------------------------------------------------------------
+                                          8:26  11/17
+
+                                           //Issue w/ priority queue & removing vertex w/ min. distance from queue
+                                              public void dijkstraAlgorithm2(int source, int dest) {
+                                                  HashMap<Vertex, Double> distance = new HashMap<>();
+                                                  HashMap<Vertex, Vertex> parents = new HashMap<>();
+                                                  Queue<Vertex> Q = new PriorityQueue<>();//new Compare()
+                                                  Set<Vertex> processed = new HashSet<>();
+
+                                                  //Initialize all vertex nodes to infinity
+                                                  for (int i = 0; i < output.size(); i++) {
+                                                      distance.put(output.get(i), Double.MAX_VALUE);
+                }
+
+                //Initialize source vertex to 0.0
+                distance.put(output.get(source), 0.0);
+                Vertex sourceVertex = output.get(source);
+                sourceVertex.setDist(0.0);
+                //sourceVertex.setGoal(output.get(dest));
+
+                //Initializes source at front of queue
+                Q.add(output.get(source));
+                //processed.add(output.get(source));
+
+
+                while (!processed.contains(output.get(dest))) {   //!Q.isEmpty()
+
+                    //remove lowest rank item from queue
+                    Vertex u = Q.poll();
+                    //System.out.println(u);
+                    processed.add(u);
+                    if(u == output.get(dest)){
+                        break;
+                    }
+
+                    ArrayList<Vertex> list = new ArrayList<>(getNeighbors(u.getNumber()));
+
+                    //for neighbors of current vertex (u):
+                    for (Vertex nextNeighbor : list) {
+                        int nextNeighborIndex = nextNeighbor.getNumber();
+                        System.out.println(nextNeighbor);
+
+                        Edge e = new Edge(u, nextNeighbor);
+
+                        double cost = distance.get(u) + e.getDistance();
+
+                        //**if neighbor in OPEN and cost less than g(neighbor):
+                        if (cost < distance.get(nextNeighbor) && !processed.contains(nextNeighbor)) {
+                            //**remove neighbor from OPEN, because new path is better
+                            Q.remove(nextNeighbor);
+
+                            //**set neighbor to new cost
+                            distance.put(nextNeighbor, cost);
+                            nextNeighbor.setDist(cost);
+
+                            //**add neighbor to processed set
+                            processed.add(output.get(nextNeighborIndex));
+                            //**add nextNeighbor to queue
+                            Q.add(nextNeighbor);
+
+                            //parents.put(e.getDestination(), e.getStart());
+                            parents.put(e.getDestination(),e.getStart());
+                        }
+
+                    }
+                }
+
+                //Trace Path
+                Vertex temp = output.get(dest);
+                LinkedList<Vertex> path = new LinkedList<>();
+
+                path.add(temp);  //path = {(0,10)
+                while (parents.get(temp) != null) {
+                    temp = parents.get(temp);
+                    path.add(temp);
+                }
+                Collections.reverse(path);
+                System.out.println(path);
+                System.out.println(distance.get(output.get(dest)));
+            }
+
+Old dijkstra
+
+    //Issue w/ priority queue & removing vertex w/ min. distance from queue
+    public void dijkstraAlgorithm(int source, int dest) {
+        HashMap<Vertex, Double> distance = new HashMap<>();
+        HashMap<Vertex, Vertex> parents = new HashMap<>();
+        PriorityQueue<Integer> Q = new PriorityQueue<>();
+        Set<Vertex> processed = new HashSet<>();
+
+        //Initialize all vertex nodes to infinity
+        for (int i = 0; i < output.size(); i++) {
+            distance.put(output.get(i), Double.MAX_VALUE);
+        }
+
+        //Initialize source vertex to 0.0
+        distance.put(output.get(source), 0.0);
+
+        //Initializes source at front of queue
+        Q.add(source);
+
+        while (!Q.isEmpty()) {
+
+            //remove lowest rank item from queue
+            int u = Q.poll();
+            //System.out.println(u);
+            //Q.remove();
+
+            if (u == dest) {
+                break;
+            }
+
+            ArrayList<Vertex> list = new ArrayList<>(getNeighbors(u));
+
+            //for neighbors of current vertex (u):
+            for (Vertex nextNeighbor : list) {
+                int nextNeighborIndex = nextNeighbor.getNumber();
+
+                Edge e = new Edge(output.get(u), nextNeighbor, output.get(dest));
+
+                double cost = distance.get(output.get(u)) + e.getDistance();
+
+                //**if neighbor in OPEN and cost less than g(neighbor):
+                if (cost < distance.get(output.get(nextNeighborIndex)) || !processed.contains(nextNeighbor)) {
+                    //**remove neighbor from OPEN, because new path is better
+                    Q.remove(nextNeighborIndex);
+
+                    //**set neighbor to new cost
+                    distance.put(output.get(nextNeighborIndex), cost);
+
+                    //**add neighbor to processed set
+                    processed.add(output.get(nextNeighborIndex));
+                    //**add nextNeighbor to queue
+                    Q.add(output.get(nextNeighborIndex).getNumber());
+
+                    parents.put(e.getDestination(), e.getStart());
+                }
+
+            }
+        }
+
+        //Trace Path
+        Vertex temp = output.get(dest);
+        LinkedList<Vertex> path = new LinkedList<>();
+
+        path.add(temp);  //path = {(0,10)
+        while (parents.get(temp) != null) {
+            temp = parents.get(temp);
+            path.add(temp);
+        }
+        Collections.reverse(path);
+        System.out.println(path);
+        System.out.println(distance.get(output.get(dest)));
+    }
+
+    public Vertex getMin( HashMap<Vertex, Double> map, Set<Vertex> processed) {
+        Entry<Vertex, Double> min = null;
+        for (Entry<Vertex, Double> entry : map.entrySet()) {
+            if (min == null || min.getValue() > entry.getValue() && !processed.contains(min.getKey())) {
+                min = entry;
+            }
+        }
+        return min.getKey();
+    }
