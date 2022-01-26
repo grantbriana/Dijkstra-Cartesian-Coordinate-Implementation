@@ -16,3 +16,6 @@
 **Input:** One file, called obstacles.dat with the obstacle inputs to the program, and two coordinates A = (Xstart, Ystart) and B = (XEnd, YEnd)
 
 **Output:**  the total distance of the shortest path and the sequence of points, one point per line, starting from the source point A which indicates the sequence grid points of the path taken by the robot. 
+
+
+#Implementation Details 
